@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Reclassification Analysis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-label {
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        .filters {
+            padding: 20px 30px;
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-group label {
+            font-weight: 500;
+            color: #495057;
+        }
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th {
+            background: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f3f4;
+            vertical-align: top;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .needs-change {
+            background-color: #fff3cd !important;
+        }
+        .needs-change:hover {
+            background-color: #ffeaa7 !important;
+        }
+        .no-change {
+            background-color: #d4edda !important;
+        }
+        .no-change:hover {
+            background-color: #b8dabc !important;
+        }
+        .job-number {
+            font-weight: bold;
+            color: #667eea;
+        }
+        .category {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .cat-urgent { background: #ffe6e6; color: #d63384; }
+        .cat-electrical { background: #e6f3ff; color: #0d6efd; }
+        .cat-make-safe { background: #ffe6e6; color: #dc3545; }
+        .cat-solar { background: #e6ffe6; color: #198754; }
+        .cat-admin { background: #fff3e6; color: #fd7e14; }
+        .cat-level-two { background: #f3e6ff; color: #6f42c1; }
+        .cat-security { background: #e6f7ff; color: #20c997; }
+        .cat-data { background: #f0f0f0; color: #6c757d; }
+        .cat-no-category { background: #f8f9fa; color: #6c757d; }
+        .description {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .amount {
+            font-weight: 500;
+            text-align: right;
+        }
+        .status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-completed { background: #d4edda; color: #155724; }
+        .status-unsuccessful { background: #f8d7da; color: #721c24; }
+        .status-work-order { background: #d1ecf1; color: #0c5460; }
+        .change-indicator {
+            font-weight: bold;
+            text-align: center;
+        }
+        .change-yes { color: #dc3545; }
+        .change-no { color: #198754; }
+        .reason {
+            font-style: italic;
+            color: #6c757d;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Job Reclassification Analysis</h1>
+            <p>Company UUID: 971d644f-d6a8-479c-a901-1f9b0425d7bb</p>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalJobs">-</div>
+                <div class="stat-label">Total Jobs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="needsChange">-</div>
+                <div class="stat-label">Need Reclassification</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="correctlyClassified">-</div>
+                <div class="stat-label">Correctly Classified</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="changePercentage">-</div>
+                <div class="stat-label">Change Percentage</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="filterChange">Show:</label>
+                <select id="filterChange">
+                    <option value="all">All Jobs</option>
+                    <option value="needs-change">Needs Reclassification</option>
+                    <option value="no-change">Correctly Classified</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterCategory">Current Category:</label>
+                <select id="filterCategory">
+                    <option value="all">All Categories</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterStatus">Status:</label>
+                <select id="filterStatus">
+                    <option value="all">All Statuses</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Unsuccessful">Unsuccessful</option>
+                    <option value="Work Order">Work Order</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchJob">Search Job:</label>
+                <input type="text" id="searchJob" placeholder="Job number or description...">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="jobTable">
+                <thead>
+                    <tr>
+                        <th>Job #</th>
+                        <th>Current Category</th>
+                        <th>Recommended Category</th>
+                        <th>Change?</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody id="jobTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let jobData = [];
+        let filteredData = [];
+
+        // Load CSV data (for demo, using sample data)
+        const csvData = `Job Number,Current Category,Recommended Category,Needs Change,Job Description Snippet,Amount,Status,Change Reason
+110,Urgent,Urgent,No,The electric hot water system has stopped working. They need hot water asap as her husband has Parkinson's disease.,495.0000,Completed,Correctly classified as urgent emergency
+213,Urgent,Make Safe,Yes,MS Electrical Power points not working. Pre-approval limit: $300 + GST for all works outlined above. Re: MAKE SAFE_JOB-19538,438.9000,Completed,Contains 'MS' and 'MAKE SAFE' keywords - should be Make Safe category
+221,Electrical,Electrical,No,Re: 76 Howards Rd Darren's residence. Fit off new shed Light and power. Rough in high bay lights in gym area.,6933.3700,Completed,Correctly classified as general electrical work
+236,Electrical,Electrical,No,Stage 2 of Works.Darren's residence. Fit off new shed Light and power. Rough in high bay lights in gym area.,4221.9400,Completed,Correctly classified as general electrical work
+267,Urgent,Make Safe,Yes,The mandatory Requirements for this Order are: Photos Required = Yes Trade Report Required = Yes Solar Electrical Unit has stopped working,275.0000,Completed,Contains make safe procedures and requirements
+280,Electrical,Electrical,No,Stage 3 -Fit off Tac room and stables -2 Twin spot lights -2 down-lights -3 double GPO's and light switch - Dig underground trench,2481.0500,Completed,General electrical installation work
+283,No Category Assigned,Electrical,Yes,2 tissue sample machines- Client to relocate machines -Provide new power supply and date cabling for back to base monitoring,1017.3400,Completed,Commercial electrical installation work
+285,Electrical,Electrical,No,-AC tech is required to service air-conditioning unit (a rat has chewed a cable) -Electrician to determine if rectifiable,263.0000,Completed,Electrical fault diagnosis and repair
+286,Electrical,Urgent,Yes,Photos Required = Yes Trade Report Required = Yes AREAS / Oven -electric oven is not working -Find Fault and if repairable,248.0000,Completed,Contains 'not working' - urgent repair needed
+330,Electrical,Electrical,No,Dade Cell Washer in Blood Bank needs the saline fill calibration adjusted. This was preformed by QML electrical.,0.0000,Completed,Specialized electrical calibration work
+337,Urgent,Make Safe,Yes,MAKE SAFE ETS0000665 They have a burst pipe caused the main bedroom to be saturated with water and requires electrical make safe,330.0000,Completed,Explicitly states 'MAKE SAFE' and water damage
+345,Electrical,Electrical,No,Site Contact: LORNA MAREE COATES HOME ASSIST ELECTRICAL - TO REPLACE EXHAUST FAN Cost is $250 ex GST only,275.0000,Completed,Standard electrical replacement work
+368,No Category Assigned,Electrical,Yes,Bathroom: - Finish Lighting - Reattach power points - Power to Dishwasher,932.0000,Completed,General electrical finishing work
+399,No Category Assigned,Electrical,Yes,QML Site Contact: Judith Rasmussen - De-Energise existing benches - Remove existing benches - Install electrical for new benches,4377.0000,Unsuccessful,Commercial electrical installation project
+440,No Category Assigned,Electrical,Yes,Electrical Specialist Report Please arrange a smoke alarm & RCD compliance testing including a written report/certificate,511.5000,Completed,Electrical testing and compliance work
+446,No Category Assigned,Electrical,Yes,ETS0001728 Attend QML site 11 Riverview Pl Murarrie QLD 4172 Installation of Desk for Dr. Emily Jones - First Floor,1080.0000,Unsuccessful,Commercial electrical installation
+489,Data Phone,Data Phone,No,WORK DETAILS : MS TEST ALARM The alarm test failed. Brisbane Histology Processors are not registering an alarm in despatch,275.0000,Completed,Correctly classified as data/communications work
+558,Urgent,Urgent,No,Site Contact: Nadia Afif JOB DETAILS Electrical Stove top not working. Hot plates not working,220.0000,Completed,Correctly classified as urgent appliance failure
+634,Make Safe,Make Safe,No,MARK STEPHEN MAKE SAFE electrical MS Special Instructions: NEW MAKE SAFE REQUEST - Water entry through roof,330.0000,Completed,Correctly classified as make safe work
+646,Make Safe,Make Safe,No,ETS0005803 Cathy Heaton ELECTRICAL MAKE SAFE - electrical Box - it's unsecure and unsafe - there's water,330.0000,Completed,Correctly classified as make safe work
+649,Make Safe,Make Safe,No,MELAINE ROWLISON ELECTRICAL MS required to secure electricals affected by water entry,330.0000,Completed,Correctly classified as make safe work
+654,Make Safe,Make Safe,No,Ms. DANIELLE TIMOTEO ELECTRICAL MAKE SAFE Job Description Make Safe / Isolate electrics to area specified,330.0000,Completed,Correctly classified as make safe work
+700,Make Safe,Make Safe,No,JOANNE WRIGHT MS ? HVAC Claim Lodgement Information I had a lightning strike last night in the driveway,330.0000,Unsuccessful,Correctly classified as make safe work
+1160,Admin office time & Quotes,Admin office time & Quotes,No,NDIS certification Please utilise the below to complete the check: https://www.ndiscommission.gov.au/workers/worker-screening,0.0000,Work Order,Correctly classified as administrative work
+1207,Solar Battery Standalone,Solar Battery Standalone,No,For full details please see attached Pylon quotes for: Supply & Install -10.56kW Solar system,29257.4300,Completed,Correctly classified as solar/battery work
+1207A,Solar Battery Standalone,Solar Battery Standalone,No,Hi Darren For full details please see attached Pylon quotes for: Option 1: 10.56kW Solar system,3039.6500,Completed,Correctly classified as solar/battery work
+1325,Level Two,Level Two,No,- Works required to reconnect Electricity supply to 90 Wanganui Rd - Reconnection due to severe storm damage,5232.0000,Unsuccessful,Correctly classified as Level Two service work
+1330,Security CCTV Access control,Security CCTV Access control,No,Starlink,1901.6600,Completed,Correctly classified as telecommunications/security work
+1373,Electrical,Electrical,No,Re-wire shed -Install new DB in shed -New underground cable run from house to shed -Install new lights & GPO's as required,6402.5000,Completed,Correctly classified as electrical rewiring work
+1404,Solar Battery Standalone,Solar Battery Standalone,No,LYNN VANDERDONK: 0432 588 562 Solar Report Please attend to the Solar on the roof for assessment,220.0000,Completed,Correctly classified as solar assessment work
+1408,Solar Battery Standalone,Make Safe,Yes,Attend Site: 35 Crabbes Creek Rd - Disconnected affected damaged panel - Make Safe $330+GST,330.0000,Completed,Contains 'Make Safe' work on damaged solar equipment
+1524,Admin office time & Quotes,Admin office time & Quotes,No,Meeting with Donatella from ETS to discuss Sustaine Electrical taking on the Electrical works,0.0000,Completed,Correctly classified as administrative meeting
+1587,Solar Battery Standalone,Make Safe,Yes,Redback 14.kW Battery add on to existing system. Battery installation and programming.,13328.8000,Unsuccessful,Job failed/unsuccessful - may have safety concerns requiring make safe`;
+
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(',');
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index] || '';
+                });
+                data.push(row);
+            }
+            return data;
+        }
+
+        function getCategoryClass(category) {
+            const cat = category.toLowerCase().replace(/[^a-z]/g, '');
+            const classMap = {
+                'urgent': 'cat-urgent',
+                'electrical': 'cat-electrical',
+                'makesafe': 'cat-make-safe',
+                'solarbatterystandalone': 'cat-solar',
+                'adminofficetimequotes': 'cat-admin',
+                'leveltwo': 'cat-level-two',
+                'securitycctvcontrol': 'cat-security',
+                'dataphone': 'cat-data',
+                'nocategoryassigned': 'cat-no-category'
+            };
+            return classMap[cat] || 'cat-no-category';
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'Completed': 'status-completed',
+                'Unsuccessful': 'status-unsuccessful',
+                'Work Order': 'status-work-order'
+            };
+            return statusMap[status] || '';
+        }
+
+        function formatAmount(amount) {
+            const num = parseFloat(amount);
+            return num > 0 ? `$${num.toLocaleString('en-US', {minimumFractionDigits: 2})}` : '$0.00';
+        }
+
+        function updateStats() {
+            const total = filteredData.length;
+            const needsChange = filteredData.filter(job => job['Needs Change'] === 'Yes').length;
+            const correctlyClassified = total - needsChange;
+            const percentage = total > 0 ? Math.round((needsChange / total) * 100) : 0;
+
+            document.getElementById('totalJobs').textContent = total;
+            document.getElementById('needsChange').textContent = needsChange;
+            document.getElementById('correctlyClassified').textContent = correctlyClassified;
+            document.getElementById('changePercentage').textContent = percentage + '%';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('jobTableBody');
+            tbody.innerHTML = '';
+
+            filteredData.forEach(job => {
+                const row = document.createElement('tr');
+                row.className = job['Needs Change'] === 'Yes' ? 'needs-change' : 'no-change';
+
+                row.innerHTML = `
+                    <td><span class="job-number">${job['Job Number']}</span></td>
+                    <td><span class="category ${getCategoryClass(job['Current Category'])}">${job['Current Category']}</span></td>
+                    <td><span class="category ${getCategoryClass(job['Recommended Category'])}">${job['Recommended Category']}</span></td>
+                    <td class="change-indicator ${job['Needs Change'] === 'Yes' ? 'change-yes' : 'change-no'}">${job['Needs Change'] === 'Yes' ? '⚠️ YES' : '✅ NO'}</td>
+                    <td class="description" title="${job['Job Description Snippet']}">${job['Job Description Snippet']}</td>
+                    <td class="amount">${formatAmount(job['Amount'])}</td>
+                    <td><span class="status ${getStatusClass(job['Status'])}">${job['Status']}</span></td>
+                    <td class="reason">${job['Change Reason']}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updateStats();
+        }
+
+        function populateFilters() {
+            const categories = [...new Set(jobData.map(job => job['Current Category']))].sort();
+            const categorySelect = document.getElementById('filterCategory');
+
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        function applyFilters() {
+            const changeFilter = document.getElementById('filterChange').value;
+            const categoryFilter = document.getElementById('filterCategory').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const searchTerm = document.getElementById('searchJob').value.toLowerCase();
+
+            filteredData = jobData.filter(job => {
+                const matchesChange = changeFilter === 'all' ||
+                    (changeFilter === 'needs-change' && job['Needs Change'] === 'Yes') ||
+                    (changeFilter === 'no-change' && job['Needs Change'] === 'No');
+
+                const matchesCategory = categoryFilter === 'all' || job['Current Category'] === categoryFilter;
+                const matchesStatus = statusFilter === 'all' || job['Status'] === statusFilter;
+                const matchesSearch = searchTerm === '' ||
+                    job['Job Number'].toLowerCase().includes(searchTerm) ||
+                    job['Job Description Snippet'].toLowerCase().includes(searchTerm);
+
+                return matchesChange && matchesCategory && matchesStatus && matchesSearch;
+            });
+
+            renderTable();
+        }
+
+        function init() {
+            jobData = parseCSV(csvData);
+            filteredData = [...jobData];
+
+            populateFilters();
+            renderTable();
+
+            // Add event listeners
+            document.getElementById('filterChange').addEventListener('change', applyFilters);
+            document.getElementById('filterCategory').addEventListener('change', applyFilters);
+            document.getElementById('filterStatus').addEventListener('change', applyFilters);
+            document.getElementById('searchJob').addEventListener('input', applyFilters);
+        }
+
+        init();
+    </script>
+</body>
+</html>

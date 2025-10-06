@@ -1,34 +1,7 @@
 // ServiceM8 Field Discovery Script
 // This script helps you discover available fields by testing API responses
 
-const SERVICEM8_API_BASE = 'https://api.servicem8.com/api_1.0';
-
-// OPTION 1: Use your ServiceM8 email and password
-const EMAIL = 'your_servicem8_email@example.com';
-const PASSWORD = 'your_servicem8_password';
-
-// OPTION 2: Or use API Key if you have one
-const API_KEY = 'your_api_key_here';
-
-// Choose authentication method
-const USE_API_KEY = false; // Set to true if using API key, false for email/password
-
-// Helper function to get authentication headers
-function getAuthHeaders() {
-  if (USE_API_KEY) {
-    return {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    };
-  } else {
-    // Basic Auth with email:password
-    const credentials = btoa(`${EMAIL}:${PASSWORD}`);
-    return {
-      'Authorization': `Basic ${credentials}`,
-      'Content-Type': 'application/json'
-    };
-  }
-}
+const { getAuthHeaders, SERVICEM8_API_BASE } = require('./config');
 
 // Function to get existing jobs and examine field structure
 async function discoverJobFields() {

@@ -1,0 +1,110 @@
+{
+  "uuid": "dd9c9912-cfcb-4788-b3c9-23422856efeb",
+  "active": 1,
+  "date": "2025-09-18 00:00:00",
+  "job_address": "23 Latrobe street east ",
+  "billing_address": "Hunter Harvey Electrical, NSW",
+  "status": "Unsuccessful",
+  "quote_date": "2025-09-18 21:45:04",
+  "work_order_date": "2025-09-24 20:55:31",
+  "work_done_description": "Redback 14.kW Battery add on to existing system.\nBattery installation and programming.\n\nNetwork Requests:\n- certification (pending)\n- Electrical Test/Tag (completed by Tim on 24/09/2025)\n- Contact Admin@sustaine.com.au if there are any issues (completed by Tim on 24/09/2025)\n- Photos of work area (pending)\n\nChecklist:\n- test the things (pending)\n- take photos of the things (pending)\n- send details of what was done to the things (pending)\n\nWork Order Details:\n- Electrician to attend and test outdoor TV if it is working or not\n- Please attend site and carry out a make safe to test and report on the outdoor TV damaged after laser light pergola roof collapsed\n- All amounts shown are exclusive of GST\n- Inspect and test affected/damaged electricals\n- Disconnect and secure any electricals as required. Secure wiring within a junction box\n- Test circuit and reinstate power\n- Leave site safe, clean and tidy\n- NOTE: If you cannot reinstate power to the home, or parts of the home, please contact us from site to advise\n- Photos of work area\n- Contact Admin@sustaine.com.au if there are any issues\n- certification\n- Electrical Test/Tag",
+  "generated_job_id": "1587",
+  "completion_date": "0000-00-00 00:00:00",
+  "completion_actioned_by_uuid": "",
+  "unsuccessful_date": "2025-09-27 18:33:04",
+  "payment_date": "0000-00-00 00:00:00",
+  "payment_method": "",
+  "payment_amount": 0,
+  "payment_actioned_by_uuid": "",
+  "edit_date": "2025-09-27 18:33:04",
+  "payment_note": "",
+  "ready_to_invoice": "0",
+  "ready_to_invoice_stamp": "0000-00-00 00:00:00",
+  "company_uuid": "c7319be2-03f5-46fc-be02-2341cca844db",
+  "geo_is_valid": 0,
+  "lng": 153.6121731,
+  "lat": -28.6488633,
+  "geo_country": "",
+  "geo_postcode": "",
+  "geo_state": "",
+  "geo_city": "",
+  "geo_street": "",
+  "geo_number": "",
+  "payment_processed": 0,
+  "payment_processed_stamp": "0000-00-00 00:00:00",
+  "payment_received": 0,
+  "payment_received_stamp": "0000-00-00 00:00:00",
+  "total_invoice_amount": "13328.8000",
+  "job_is_scheduled_until_stamp": "0000-00-00 00:00:00",
+  "category_uuid": "080733e2-a30a-4553-9e40-1f47cec7f6cb",
+  "queue_uuid": "",
+  "queue_expiry_date": "0000-00-00 00:00:00",
+  "badges": "[]",
+  "quote_sent": false,
+  "invoice_sent": true,
+  "purchase_order_number": "PO1529-MS01-001",
+  "invoice_sent_stamp": "2025-09-27 18:30:00",
+  "queue_assigned_staff_uuid": "",
+  "quote_sent_stamp": "0000-00-00 00:00:00",
+  "customfield_xero_tracking_cat_1": "",
+  "active_network_request_uuid": "",
+  "customfield_xero_tracking_cat_2": "",
+  "related_knowledge_articles": false,
+  "job_description": "Redback 14.kW Battery add on to existing system.",
+  "created_by_staff_uuid": "43b0a0f7-f363-4bd8-bc5a-233fe0847beb",
+  "enhanced_contact_info": {
+    "primary_contact_name": "Vanessa Hall",
+    "primary_contact_email": "vanessa@hunterharvey.com.au",
+    "primary_contact_phone": "0401406501",
+    "primary_contact_mobile": ""
+  },
+  "enhanced_job_category": "Solar, Battery, Standalone",
+  "enhanced_activity_timeline": [
+    {
+      "timestamp": "6:33 PM 27/09/2025",
+      "action": "Status Changed",
+      "details": "Job status changed to Unsuccessful",
+      "by": "Vanessa"
+    },
+    {
+      "timestamp": "9:16 PM 24/09/2025",
+      "action": "Job sent to queue",
+      "details": "Job sent to 'TEE New job' queue",
+      "by": "Vanessa"
+    },
+    {
+      "timestamp": "9:10 PM 24/09/2025",
+      "action": "Job sent to queue",
+      "details": "Job sent to 'TEE New job' queue",
+      "by": "Vanessa"
+    },
+    {
+      "timestamp": "9:07 PM 24/09/2025",
+      "action": "Checklist Completed",
+      "details": "Electrical Test/Tag",
+      "by": "nessiii@hotmail.com"
+    },
+    {
+      "timestamp": "9:07 PM 24/09/2025",
+      "action": "Checklist Completed",
+      "details": "Contact Admin@sustaine.com.au if there are any issues",
+      "by": "nessiii@hotmail.com"
+    },
+    {
+      "timestamp": "9:07 PM 24/09/2025",
+      "action": "Work Order Request - In Progress",
+      "by": "nessiii@hotmail.com"
+    },
+    {
+      "timestamp": "9:06 PM 24/09/2025",
+      "action": "Work Order Request - Sent",
+      "details": "To: nessiii@hotmail.com, Reference Number: #1587-3",
+      "by": "Vanessa"
+    },
+    {
+      "timestamp": "6:59 PM 24/09/2025",
+      "action": "Work Order Request - Completed",
+      "by": "nessiii@hotmail.com"
+    }
+  ]
+}

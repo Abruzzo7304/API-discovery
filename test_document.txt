@@ -1,0 +1,18 @@
+ServiceM8 API Test Document
+===========================
+
+This is a test document for testing file attachments via the ServiceM8 API.
+
+Job Details:
+- Created via API
+- Testing attachment functionality
+- File upload verification
+
+Content:
+This document contains test information to verify that file attachments work correctly with ServiceM8 job records.
+
+Date: 2025-09-29
+Purpose: API Testing
+Status: Test Document
+
+End of test document.

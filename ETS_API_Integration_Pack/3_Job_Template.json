@@ -1,0 +1,202 @@
+{
+  "// IMPORTANT NOTES": "This template uses Smart Contacts structure. Create SITE first, then JOB, then CONTACTS",
+  
+  "// STEP 1: SITE CREATION": "==================================",
+  "site": {
+    "// INSTRUCTION": "Site represents the physical location, NOT any individual person",
+    "name": "FILL_ME_IN: Site name (e.g., for company 'QML - Murwillumbah' for individual 'John Smith')",
+    "parent_company_uuid": "971d644f-d6a8-479c-a901-1f9b0425d7bb",
+    "address": "FILL_ME_IN: Physical site address (where the work will be done)",
+    "email": "FILL_ME_IN: Generic site email (e.g., 'admin@company.com')",
+    "phone": "FILL_ME_IN: Site main phone number",
+    "active": 1,
+    "// DO NOT CHANGE": "parent_company_uuid links to ETS"
+  },
+
+  "// STEP 2: COMPANY CONTACTS": "==================================",
+  "company_contacts": {
+    "// INSTRUCTION": "Add people associated with the site in their various roles",
+    "contacts": [
+      {
+        "first": "FILL_ME_IN: Site contact first name",
+        "last": "FILL_ME_IN: Site contact last name",
+        "email": "FILL_ME_IN: Individual's email",
+        "mobile": "FILL_ME_IN: Individual's mobile",
+        "role": "JOB",
+        "is_primary": 1,
+        "// NOTE": "Role 'JOB' = Site Contact"
+      },
+      {
+        "first": "OPTIONAL: Tenant first name",
+        "last": "OPTIONAL: Tenant last name",
+        "email": "OPTIONAL: Tenant email",
+        "mobile": "OPTIONAL: Tenant mobile",
+        "role": "Tenant",
+        "is_primary": 0,
+        "// NOTE": "Person/company leasing the property"
+      },
+      {
+        "first": "OPTIONAL: Property owner first name",
+        "last": "OPTIONAL: Property owner last name",
+        "email": "OPTIONAL: Property owner email",
+        "mobile": "OPTIONAL: Property owner mobile",
+        "role": "Property Owner",
+        "is_primary": 0,
+        "// NOTE": "Person/company who owns the property"
+      },
+      {
+        "first": "OPTIONAL: Property manager first name",
+        "last": "OPTIONAL: Property manager last name",
+        "email": "OPTIONAL: Property manager email",
+        "mobile": "OPTIONAL: Property manager mobile",
+        "role": "Property Manager",
+        "is_primary": 0,
+        "// NOTE": "Person/company managing the property"
+      }
+    ]
+  },
+
+  "// STEP 3: JOB CREATION": "==================================",
+  "job": {
+    "// FIELDS TO COMPLETE": "User must fill these fields",
+    
+    "company_uuid": "FILL_ME_IN: Use site UUID from Step 1 (NOT ETS UUID)",
+    "purchase_order_number": "FILL_ME_IN: ETS PO number (e.g., 'PO12052-BU01-002')",
+    "status": "FILL_ME_IN: Either 'Work Order' or 'Quote'",
+    "job_address": "FILL_ME_IN: Physical address where work is performed (site address)",
+    
+    "job_description": "FILL_ME_IN: Format as per ETS PO:\n\nURGENCY: [CHOOSE ONE: CRITICAL / URGENT / STANDARD]\n=========================================\nCRITICAL - Immediate response required, safety/security risk\nURGENT - Response within 4 hours, business operations affected\nSTANDARD - Response within 24-48 hours, routine maintenance\n\nContact site during business hours to schedule job\nService window: [e.g., Monday-Saturday 6am-10pm]\nResponse time: [Based on urgency level above]\n\n-----------------------------------\n\nJOB DETAILS:\n===========\n[Describe the work required - e.g., Computer wall mount delivered to site. Complete the installation...]\n\nPlease scan & complete site risk assessment before proceeding with works.\n\n1.1. Please attend site to undertake the scope of works as per detailed instruction in this work order.\n1.2. If you cannot complete the works within the cost limits [AMOUNT] ex GST, or due to needing to order materials, please call Sustaine from site for further advice.\n1.3. If costs are to exceed the pre-approval limit, we will ask for a quote so we can get formal approval before commencement.\n1.4. If you are able to complete works within the limit, or get additional cost approval on site, please ensure all rubbish and debris are to be removed from site and disposed of appropriately on completion of works.\n1.5. Site to be left clean and tidy on completion\n\nOHS REQUIREMENTS:\n================\nState Occupational Health and Safety regulations and policies must be adhered to for the duration of the Subcontractors time on site. It is the Subcontractors responsibility to complete a risk assessment before commencing all the jobs and immediately reporting any high-risk hazards to Sustaine prior to commencing the jobs.\n\nSCOPE OF WORKS:\n==============\nIt is the responsibility of the sub-contractor to advise of any discrepancies in the scope of works. Any alteration or variance to the scope of works provided must be approved by Sustaine prior to works commencing.\n\nFor any changes or variations to this work order, please contact:\nSustaine - 1300 227 266 or Admin@Sustaine.com.au",
+
+    "work_done_description": "FILL_ME_IN: Billing instructions\n\nBILLING INSTRUCTIONS:\n==================\nBill To: ETS Head Office (via Smart Contacts)\nPO Reference: [Same as purchase_order_number]\n\nAPPROVAL LIMIT: $[amount] ex GST\n\nAny work exceeding this amount requires prior approval from ETS.\nFor variations or additional work beyond approved limit:\n- Contact ETS Office: 1300 755 455\n- Email: admin@etsaus.com.au\n\nPayment terms: 30 days from invoice\nInvoicing: Direct to ETS head office",
+
+    "// OPTIONAL FIELDS": "Complete if applicable",
+    "scheduled_start": "OPTIONAL: YYYY-MM-DD HH:MM:SS format",
+    "scheduled_duration": "OPTIONAL: Duration in minutes",
+    
+    "// CATEGORY OPTIONS": "Choose appropriate category UUID",
+    "category_uuid": "CHOOSE_ONE: list is below",
+    "// Electrical": "9b87f18b-5e5c-486f-99e5-1f4c5a3460fb",
+    "// AC install": "b9dd45cc-9623-4649-a1a7-1f47c8e429bb",
+    "// Solar, Battery, Standalone": "080733e2-a30a-4553-9e40-1f47cec7f6cb",
+    "// NSWTA & Telco": "b0fa5a37-9a35-47c5-b40e-1f4c50408dab",
+    "// Re-wire": "508bb9d5-3f21-4686-b0a7-1f4c56c41a8b",
+    "// Data, Phone": "067bdf55-7332-4103-9f72-1f4c5e18c70b",
+    "// Security, CCTV, Access control": "75a20c1b-bc57-4251-92cf-21eca071128b",
+    "// Generator": "d183fff9-fb2f-4859-8e6e-21ecaff7f96b",
+    "// Make Safe": "4e7b2af8-44a8-4570-b4cc-20deaa28a65b",
+    "// Energy Efficiency": "39fcdb19-16a3-4c69-a1fe-1fbbf724d83b",
+    "// Urgent": "e459d11f-e77e-4b57-9daf-1f4c5f8aa52b",
+    "// Warranty": "f6bf455d-bd9a-4f55-a09d-1f4c59d1bc1b",
+    "// VIP": "34109333-00ac-47d4-bf32-1f47c552c73b",
+    
+    "// DO NOT CHANGE THESE FIELDS": "System fields - leave as configured",
+    "billing_address": "ETS Head Office, 223 Tweed Valley Way, South Murwillumbah NSW 2484",
+    "badges": "[\"7e6e49bc-2c47-4df5-a83f-234d5003d4eb\"]",
+    "source": "Created by ETS via API Integration",
+    "active": 1,
+    "// BILLING NOTE": "billing_address field ensures invoices are directed to ETS head office"
+  },
+
+  "// STEP 4: JOB CONTACTS": "==================================",
+  "job_contacts": {
+    "// INSTRUCTION": "Link site contacts to this job - NO BILLING CONTACTS",
+    "// IMPORTANT": "ETS handles ALL invoicing - no billing contacts at site level",
+    "contacts": [
+      {
+        "job_uuid": "USE_JOB_UUID_FROM_STEP_3",
+        "first": "FILL_ME_IN: Site contact from Step 2",
+        "last": "FILL_ME_IN: Site contact from Step 2",
+        "email": "FILL_ME_IN: Site contact from Step 2",
+        "mobile": "FILL_ME_IN: Site contact from Step 2",
+        "type": "JOB",
+        "active": 1,
+        "// NOTE": "Site Contact for coordination"
+      },
+      {
+        "// OPTIONAL": "Only add if applicable",
+        "job_uuid": "USE_JOB_UUID_FROM_STEP_3",
+        "first": "OPTIONAL: Tenant if applicable",
+        "last": "OPTIONAL: Tenant if applicable",
+        "email": "OPTIONAL: Tenant email",
+        "mobile": "OPTIONAL: Tenant mobile",
+        "type": "Tenant",
+        "active": 1,
+        "// NOTE": "Person/company leasing the property"
+      },
+      {
+        "// OPTIONAL": "Only add if applicable",
+        "job_uuid": "USE_JOB_UUID_FROM_STEP_3",
+        "first": "OPTIONAL: Property owner if applicable",
+        "last": "OPTIONAL: Property owner if applicable",
+        "email": "OPTIONAL: Property owner email",
+        "mobile": "OPTIONAL: Property owner mobile",
+        "type": "Property Owner",
+        "active": 1,
+        "// NOTE": "Person/company who owns the property"
+      },
+      {
+        "// OPTIONAL": "Only add if property has a manager",
+        "job_uuid": "USE_JOB_UUID_FROM_STEP_3",
+        "first": "OPTIONAL: Property manager if applicable",
+        "last": "OPTIONAL: Property manager if applicable",
+        "email": "OPTIONAL: Property manager email",
+        "mobile": "OPTIONAL: Property manager mobile",
+        "type": "Property Manager",
+        "active": 1,
+        "// NOTE": "Person/company managing the property"
+      }
+    ],
+    "// NO BILLING CONTACT": "Invoices automatically flow to ETS through Smart Contacts"
+  },
+
+  "// STEP 5: ATTACHMENTS": "==================================",
+  "attachment": {
+    "// IMPORTANT": "Attach the ETS Purchase Order PDF to the job",
+    "job_uuid": "USE_JOB_UUID_FROM_STEP_2",
+    "filename": "FILL_ME_IN: PO filename (e.g., 'PO12052-BU01-002.pdf')",
+    "filePath": "FILL_ME_IN: Path to the ETS PO PDF file",
+    "// NOTE": "The production script will read the file from filePath and upload it"
+  },
+
+  "// API ENDPOINTS": "==================================",
+  "endpoints": {
+    "base_url": "https://api.servicem8.com/api_1.0",
+    "company": "/company.json",
+    "job": "/job.json",
+    "jobcontact": "/jobcontact.json",
+    "attachment": "/Attachment/{uuid}.file",
+    "note": "/note.json"
+  },
+
+  "// IMPORTANT LIMITATIONS": "==================================",
+  "limitations": [
+    "billing_address field ALWAYS equals job_address at job creation",
+    "Billing separation happens at invoice generation, not job creation",
+    "Site Contact must use type 'JOB' (no SITE_CONTACT type exists)",
+    "Only 3 JobContact types work: JOB, Property Manager, BILLING",
+    "Billing instructions must go in work_done_description field",
+    "Network Requests can only be sent through ServiceM8 UI, not API"
+  ],
+
+  "// WORKFLOW SUMMARY": "==================================",
+  "workflow": [
+    "1. Create/find site (physical location, not a person)",
+    "2. Add company contacts (people associated with the site)",
+    "3. Create job linked to the site",
+    "4. Link relevant company contacts to the specific job",
+    "5. Attach ETS Purchase Order PDF",
+    "6. ServiceM8 handles billing at invoice time via Smart Contacts hierarchy"
+  ],
+
+  "// UNDERSTANDING ROLES": "==================================",
+  "role_clarification": {
+    "Site": "The physical location/company (e.g., 'QML - Murwillumbah')",
+    "Company Contacts": "People associated with that site",
+    "Site Contact": "Person with role 'JOB' for site coordination (e.g., Margie Brown)",
+    "Tenant": "Optional person/company leasing the property",
+    "Property Owner": "Optional person/company who owns the property",
+    "Property Manager": "Optional person/company managing the property",
+    "Billing": "ALL invoicing goes to ETS - NO billing contacts at site level",
+    "Invoice Flow": "Site → ETS → ETS pays subcontractor"
+  }
+}

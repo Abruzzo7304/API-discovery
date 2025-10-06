@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subcontractor Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .card.archived {
+            opacity: 0.6;
+            background: #f8f9fa;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .contractor-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .contractor-type {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active { background: #d4edda; color: #155724; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-inactive { background: #f8d7da; color: #721c24; }
+        .status-archived { background: #e2e3e5; color: #495057; }
+
+        .card-details {
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #333;
+            text-align: right;
+        }
+
+        .specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .specialty-tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-outline:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .next-action {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .next-action:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        .actions-primary {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .actions-secondary {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .last-contact {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stars {
+            color: #ffc107;
+        }
+
+        .archive-notice {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #6c757d;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stats {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Subcontractor Management</h1>
+            <p>Manage your network of specialized contractors and service providers</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalCount">12</div>
+                <div class="stat-label">Total Contractors</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="activeCount">8</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="pendingCount">2</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="archivedCount">2</div>
+                <div class="stat-label">Archived</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter">
+                    <option value="all">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="archived">Archived</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label for="specialtyFilter">Specialty:</label>
+                <select id="specialtyFilter">
+                    <option value="all">All Specialties</option>
+                    <option value="electrical">Electrical</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="hvac">HVAC</option>
+                    <option value="solar">Solar</option>
+                    <option value="security">Security</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" placeholder="Name, company, or location...">
+            </div>
+        </div>
+
+        <div class="cards-grid" id="cardsContainer">
+            <!-- Cards will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const contractors = [
+            {
+                id: 1,
+                name: "Mike Johnson",
+                company: "Johnson Electrical",
+                status: "active",
+                specialties: ["electrical", "solar"],
+                location: "Brisbane CBD",
+                phone: "+61 7 3000 1234",
+                email: "mike@johnsonelectrical.com.au",
+                rating: 4.8,
+                lastContact: "2024-01-15",
+                nextAction: "Schedule quarterly review",
+                jobsCompleted: 24,
+                avgResponseTime: "2 hours"
+            },
+            {
+                id: 2,
+                name: "Sarah Chen",
+                company: "Chen HVAC Solutions",
+                status: "active",
+                specialties: ["hvac", "refrigeration"],
+                location: "Gold Coast",
+                phone: "+61 7 5500 5678",
+                email: "sarah@chenhvac.com.au",
+                rating: 4.9,
+                lastContact: "2024-01-10",
+                nextAction: "Send new project details",
+                jobsCompleted: 18,
+                avgResponseTime: "1.5 hours"
+            },
+            {
+                id: 3,
+                name: "Tom Wilson",
+                company: "Wilson Plumbing",
+                status: "pending",
+                specialties: ["plumbing", "gas"],
+                location: "Sunshine Coast",
+                phone: "+61 7 5400 9876",
+                email: "tom@wilsonplumbing.com.au",
+                rating: 4.3,
+                lastContact: "2024-01-08",
+                nextAction: "Complete onboarding documents",
+                jobsCompleted: 0,
+                avgResponseTime: "3 hours"
+            },
+            {
+                id: 4,
+                name: "Lisa Rodriguez",
+                company: "Secure Systems Ltd",
+                status: "active",
+                specialties: ["security", "cctv"],
+                location: "Ipswich",
+                phone: "+61 7 3200 4567",
+                email: "lisa@securesystems.com.au",
+                rating: 4.7,
+                lastContact: "2023-12-20",
+                nextAction: "Follow up on recent quote",
+                jobsCompleted: 32,
+                avgResponseTime: "4 hours"
+            },
+            {
+                id: 5,
+                name: "David Park",
+                company: "Park Solar Solutions",
+                status: "archived",
+                specialties: ["solar", "battery"],
+                location: "Logan",
+                phone: "+61 7 3100 8901",
+                email: "david@parksolar.com.au",
+                rating: 3.8,
+                lastContact: "2023-08-15",
+                nextAction: "N/A - Archived",
+                jobsCompleted: 12,
+                avgResponseTime: "6 hours"
+            }
+        ];
+
+        function getStatusClass(status) {
+            return `status-${status}`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-AU');
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '★'.repeat(fullStars);
+            if (hasHalfStar) stars += '☆';
+            return stars;
+        }
+
+        function getNextActionButton(contractor) {
+            if (contractor.status === 'archived') {
+                return `<button class="btn btn-warning" onclick="unarchiveContractor(${contractor.id})">
+                    <span>↩️</span> Unarchive
+                </button>`;
+            }
+
+            if (contractor.status === 'pending') {
+                return `<button class="btn next-action" onclick="handleNextAction(${contractor.id})">
+                    <span>📝</span> ${contractor.nextAction}
+                </button>`;
+            }
+
+            return `<button class="btn next-action" onclick="handleNextAction(${contractor.id})">
+                <span>⚡</span> ${contractor.nextAction}
+            </button>`;
+        }
+
+        function renderCard(contractor) {
+            return `
+                <div class="card ${contractor.status === 'archived' ? 'archived' : ''}" data-id="${contractor.id}">
+                    ${contractor.status === 'archived' ? '<div class="archive-notice">Archived</div>' : ''}
+
+                    <div class="card-header">
+                        <div>
+                            <div class="contractor-name">${contractor.name}</div>
+                            <div class="contractor-type">${contractor.company}</div>
+                        </div>
+                        <div class="status-badge ${getStatusClass(contractor.status)}">
+                            ${contractor.status}
+                        </div>
+                    </div>
+
+                    <div class="card-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value">${contractor.location}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Jobs Completed:</span>
+                            <span class="detail-value">${contractor.jobsCompleted}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Avg Response:</span>
+                            <span class="detail-value">${contractor.avgResponseTime}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Rating:</span>
+                            <span class="detail-value">
+                                <div class="rating">
+                                    <span class="stars">${generateStars(contractor.rating)}</span>
+                                    <span>${contractor.rating}</span>
+                                </div>
+                            </span>
+                        </div>
+
+                        <div class="specialties">
+                            ${contractor.specialties.map(s => `<span class="specialty-tag">${s.toUpperCase()}</span>`).join('')}
+                        </div>
+
+                        <div class="last-contact">
+                            Last contact: ${formatDate(contractor.lastContact)}
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <div class="actions-primary">
+                            ${getNextActionButton(contractor)}
+                            <button class="btn btn-primary" onclick="viewDetails(${contractor.id})">
+                                <span>👁️</span> View Details
+                            </button>
+                            <button class="btn btn-secondary" onclick="editRecord(${contractor.id})">
+                                <span>✏️</span> Edit
+                            </button>
+                        </div>
+
+                        <div class="actions-secondary">
+                            <button class="btn btn-outline" onclick="duplicateRecord(${contractor.id})">
+                                <span>📋</span> Duplicate
+                            </button>
+                            <button class="btn btn-outline" onclick="exportRecord(${contractor.id})">
+                                <span>📤</span> Export
+                            </button>
+                            ${contractor.status !== 'archived' ?
+                                `<button class="btn btn-warning" onclick="archiveContractor(${contractor.id})">
+                                    <span>📦</span> Archive
+                                </button>` : ''
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            const statusFilter = document.getElementById('statusFilter').value;
+            const specialtyFilter = document.getElementById('specialtyFilter').value;
+            const searchTerm = document.getElementById('searchFilter').value.toLowerCase();
+
+            let filteredContractors = contractors.filter(contractor => {
+                const matchesStatus = statusFilter === 'all' || contractor.status === statusFilter;
+                const matchesSpecialty = specialtyFilter === 'all' || contractor.specialties.includes(specialtyFilter);
+                const matchesSearch = searchTerm === '' ||
+                    contractor.name.toLowerCase().includes(searchTerm) ||
+                    contractor.company.toLowerCase().includes(searchTerm) ||
+                    contractor.location.toLowerCase().includes(searchTerm);
+
+                return matchesStatus && matchesSpecialty && matchesSearch;
+            });
+
+            container.innerHTML = filteredContractors.map(renderCard).join('');
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = contractors.length;
+            const active = contractors.filter(c => c.status === 'active').length;
+            const pending = contractors.filter(c => c.status === 'pending').length;
+            const archived = contractors.filter(c => c.status === 'archived').length;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('activeCount').textContent = active;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('archivedCount').textContent = archived;
+        }
+
+        // Action handlers
+        function handleNextAction(id) {
+            const contractor = contractors.find(c => c.id === id);
+            alert(`Next Action for ${contractor.name}: ${contractor.nextAction}`);
+        }
+
+        function viewDetails(id) {
+            const contractor = contractors.find(c => c.id === id);
+            alert(`Viewing full details for ${contractor.name}\n\nPhone: ${contractor.phone}\nEmail: ${contractor.email}\nCompany: ${contractor.company}`);
+        }
+
+        function editRecord(id) {
+            const contractor = contractors.find(c => c.id === id);
+            alert(`Opening edit form for ${contractor.name}`);
+        }
+
+        function duplicateRecord(id) {
+            const contractor = contractors.find(c => c.id === id);
+            alert(`Creating duplicate record based on ${contractor.name}`);
+        }
+
+        function exportRecord(id) {
+            const contractor = contractors.find(c => c.id === id);
+            alert(`Exporting record for ${contractor.name} as CSV/PDF`);
+        }
+
+        function archiveContractor(id) {
+            const contractor = contractors.find(c => c.id === id);
+            if (confirm(`Archive ${contractor.name}? This will hide them from active views but preserve all data.`)) {
+                contractor.status = 'archived';
+                contractor.nextAction = 'N/A - Archived';
+                renderCards();
+            }
+        }
+
+        function unarchiveContractor(id) {
+            const contractor = contractors.find(c => c.id === id);
+            if (confirm(`Unarchive ${contractor.name}? This will restore them to active status.`)) {
+                contractor.status = 'active';
+                contractor.nextAction = 'Follow up on restoration';
+                renderCards();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('statusFilter').addEventListener('change', renderCards);
+        document.getElementById('specialtyFilter').addEventListener('change', renderCards);
+        document.getElementById('searchFilter').addEventListener('input', renderCards);
+
+        // Initial render
+        renderCards();
+    </script>
+</body>
+</html>

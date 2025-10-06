@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Classification Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        .header {
+            padding: 40px 20px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: flex;
+            padding: 20px;
+            gap: 40px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filters {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter label {
+            font-size: 13px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        select, input {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            background: white;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .table-container {
+            overflow: auto;
+            max-height: 70vh;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 500;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .needs-change {
+            background: #fff8e1;
+        }
+
+        .needs-change:hover {
+            background: #fff3c4;
+        }
+
+        .job-number {
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            margin: 1px;
+        }
+
+        .tag-work { background: #e3f2fd; }
+        .tag-urgency { background: #fff3e0; }
+        .tag-property { background: #f3e5f5; }
+        .tag-status { background: #e8f5e8; }
+
+        .description {
+            max-width: 400px;
+            max-height: 150px;
+            word-wrap: break-word;
+            white-space: pre-line;
+            font-size: 0.9em;
+            line-height: 1.3;
+            overflow-y: auto;
+            padding: 5px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+
+        .address {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .amount {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .change {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .change-yes { color: #d32f2f; }
+        .change-no { color: #388e3c; }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Job Classification Analysis</h1>
+            <p>Work Type | Urgency Level | Property Type</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalJobs">187</div>
+                <div class="stat-label">Total Jobs</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="needsChange">141</div>
+                <div class="stat-label">Need Change</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="changePercent">75%</div>
+                <div class="stat-label">Change Rate</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter">
+                <label>Show</label>
+                <select id="filterChange">
+                    <option value="all">All Jobs</option>
+                    <option value="needs-change">Needs Change</option>
+                    <option value="no-change">Correct</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label>Work Type</label>
+                <select id="filterWorkType">
+                    <option value="all">All</option>
+                    <option value="Make Safe">Make Safe</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Solar/Battery">Solar/Battery</option>
+                    <option value="Data/Phone">Data/Phone</option>
+                    <option value="Security/CCTV">Security/CCTV</option>
+                    <option value="Level Two">Level Two</option>
+                    <option value="Air Conditioning">Air Conditioning</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label>Urgency</label>
+                <select id="filterUrgency">
+                    <option value="all">All</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Planned">Planned</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label>Property</label>
+                <select id="filterProperty">
+                    <option value="all">All</option>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Industrial">Industrial</option>
+                    <option value="Agricultural">Agricultural</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label>Status</label>
+                <select id="filterStatus">
+                    <option value="all">All</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Unsuccessful">Unsuccessful</option>
+                    <option value="Work Order">Work Order</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label>Search</label>
+                <input type="text" id="searchJob" placeholder="Job number or description">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="loading" id="loading">Loading jobs...</div>
+            <table id="jobTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Job</th>
+                        <th>Original ServiceM8 Category</th>
+                        <th>New: Work Type</th>
+                        <th>New: Urgency Level</th>
+                        <th>New: Property Type</th>
+                        <th>Recommended ServiceM8 Category</th>
+                        <th>Needs Change?</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="jobTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let jobData = [];
+        let filteredData = [];
+
+        function formatAmount(amount) {
+            const num = parseFloat(amount);
+            return num > 0 ? `$${num.toLocaleString()}` : '-';
+        }
+
+        function updateStats() {
+            const total = filteredData.length;
+            const needsChange = filteredData.filter(job => job.needs_change).length;
+            const percentage = total > 0 ? Math.round((needsChange / total) * 100) : 0;
+
+            document.getElementById('totalJobs').textContent = total;
+            document.getElementById('needsChange').textContent = needsChange;
+            document.getElementById('changePercent').textContent = percentage + '%';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('jobTableBody');
+            tbody.innerHTML = '';
+
+            filteredData.forEach(job => {
+                const row = document.createElement('tr');
+                if (job.needs_change) {
+                    row.className = 'needs-change';
+                }
+
+                row.innerHTML = `
+                    <td><span class="job-number">${job.job_number}</span></td>
+                    <td>${job.current_category}</td>
+                    <td><span class="tag tag-work">${job.work_type}</span></td>
+                    <td><span class="tag tag-urgency">${job.urgency_level}</span></td>
+                    <td><span class="tag tag-property">${job.property_type}</span></td>
+                    <td>${job.recommended_category}</td>
+                    <td class="change ${job.needs_change ? 'change-yes' : 'change-no'}">${job.needs_change ? 'Yes' : 'No'}</td>
+                    <td class="description" title="${job.job_description_snippet}">${job.job_description_snippet}</td>
+                    <td class="address" title="${job.job_address || ''}">${job.job_address || ''}</td>
+                    <td class="amount">${formatAmount(job.amount)}</td>
+                    <td><span class="tag tag-status">${job.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updateStats();
+        }
+
+        function applyFilters() {
+            const changeFilter = document.getElementById('filterChange').value;
+            const workTypeFilter = document.getElementById('filterWorkType').value;
+            const urgencyFilter = document.getElementById('filterUrgency').value;
+            const propertyFilter = document.getElementById('filterProperty').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const searchTerm = document.getElementById('searchJob').value.toLowerCase();
+
+            filteredData = jobData.filter(job => {
+                const matchesChange = changeFilter === 'all' ||
+                    (changeFilter === 'needs-change' && job.needs_change) ||
+                    (changeFilter === 'no-change' && !job.needs_change);
+
+                const matchesWorkType = workTypeFilter === 'all' || job.work_type === workTypeFilter;
+                const matchesUrgency = urgencyFilter === 'all' || job.urgency_level === urgencyFilter;
+                const matchesProperty = propertyFilter === 'all' || job.property_type === propertyFilter;
+                const matchesStatus = statusFilter === 'all' || job.status === statusFilter;
+                const matchesSearch = searchTerm === '' ||
+                    job.job_number.toLowerCase().includes(searchTerm) ||
+                    job.job_description_snippet.toLowerCase().includes(searchTerm) ||
+                    (job.job_address && job.job_address.toLowerCase().includes(searchTerm));
+
+                return matchesChange && matchesWorkType && matchesUrgency && matchesProperty && matchesStatus && matchesSearch;
+            });
+
+            renderTable();
+        }
+
+        async function loadJobData() {
+            try {
+                const response = await fetch('three_dimensional_job_classification.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.warn('Could not load JSON file:', error);
+                return [
+                    {
+                        "job_number": "110",
+                        "current_category": "Urgent",
+                        "work_type": "Electrical",
+                        "urgency_level": "Emergency",
+                        "property_type": "Residential",
+                        "recommended_category": "Urgent",
+                        "needs_change": false,
+                        "job_description_snippet": "The electric hot water system has stopped working. They need hot water asap as her husband has Parkinson's disease.",
+                        "job_address": "",
+                        "amount": "495.0000",
+                        "status": "Completed"
+                    },
+                    {
+                        "job_number": "1587",
+                        "current_category": "Solar, Battery, Standalone",
+                        "work_type": "Make Safe",
+                        "urgency_level": "Standard",
+                        "property_type": "Residential",
+                        "recommended_category": "Make Safe",
+                        "needs_change": true,
+                        "job_description_snippet": "Redback 14.kW Battery add on to existing system. Battery installation and programming.",
+                        "job_address": "",
+                        "amount": "13328.8000",
+                        "status": "Unsuccessful"
+                    }
+                ];
+            }
+        }
+
+        async function init() {
+            try {
+                jobData = await loadJobData();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('jobTable').style.display = 'table';
+            } catch (error) {
+                document.getElementById('loading').textContent = 'Error loading data';
+            }
+
+            filteredData = [...jobData];
+            renderTable();
+
+            // Add event listeners
+            document.getElementById('filterChange').addEventListener('change', applyFilters);
+            document.getElementById('filterWorkType').addEventListener('change', applyFilters);
+            document.getElementById('filterUrgency').addEventListener('change', applyFilters);
+            document.getElementById('filterProperty').addEventListener('change', applyFilters);
+            document.getElementById('filterStatus').addEventListener('change', applyFilters);
+            document.getElementById('searchJob').addEventListener('input', applyFilters);
+        }
+
+        init();
+    </script>
+</body>
+</html>

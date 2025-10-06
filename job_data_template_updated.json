@@ -1,0 +1,61 @@
+{
+  "// REQUIRED FIELDS": "These fields are mandatory",
+  "status": "Work Order",
+  "job_address": "FILL_ME_IN - Full address where work will be performed",
+  "job_description": "FILL_ME_IN - Description of work to be done",
+
+  "// JOB DETAILS": "Additional job information",
+  "job_number": "FILL_ME_IN - Your job/reference number",
+  "job_priority": "FILL_ME_IN - Normal/High/Low (optional)",
+  "job_notes": "FILL_ME_IN - Additional notes about the job",
+  "job_location_name": "FILL_ME_IN - Location name/building name (optional)",
+
+  "// BILLING": "Billing information - COMPANY ADDRESS USED",
+  "billing_address": "223 Tweed Valley Way\nSouth Murwillumbah NSW 2484",
+  "company_uuid": "971d644f-d6a8-479c-a901-1f9b0425d7bb",
+  "purchase_order_number": "FILL_ME_IN - PO number if applicable",
+
+  "// SCHEDULING": "Date information",
+  "date_created": "FILL_ME_IN - YYYY-MM-DD HH:MM:SS or leave empty for current time",
+
+  "// METADATA": "Additional fields",
+  "source": "FILL_ME_IN - How this job was created (e.g. 'API', 'Email', 'Phone call')",
+  "active": 1,
+
+  "// CONTACTS": "Available company contacts - NO NEED TO EDIT",
+  "available_contacts": [
+    {
+      "uuid": "db3a9ef8-8bea-427a-af3b-1f9b07cb9a4b",
+      "name": "Darren Siemsen (Primary)",
+      "email": "darren@emergencytradeservices.com.au",
+      "mobile": "0437 126237",
+      "type": "JOB",
+      "will_be_linked": "YES - Primary job contact"
+    },
+    {
+      "uuid": "546c96a0-2eec-4ee7-96d3-1f9b0d3a9beb",
+      "name": "Admin",
+      "email": "admin@emergencytradeservices.com.au",
+      "mobile": "0418624603",
+      "type": "BILLING",
+      "will_be_linked": "YES - Billing contact"
+    },
+    {
+      "uuid": "421c87e3-27e0-4574-90f3-20dfded5f94b",
+      "name": "Mark Stephen",
+      "mobile": "0409914022",
+      "type": "Property Manager",
+      "will_be_linked": "NO - Available if needed"
+    }
+  ],
+
+  "// INSTRUCTIONS": {
+    "1": "Replace all 'FILL_ME_IN' values with your actual job data",
+    "2": "Do NOT edit the company_uuid or billing_address",
+    "3": "Do NOT edit the contacts section - these will be linked automatically",
+    "4": "Valid status options: 'Quote' or 'Work Order'",
+    "5": "job_address should be where the work is performed",
+    "6": "Save this file when done and provide it back for job creation",
+    "7": "The system will create the job and link your company contacts automatically"
+  }
+}

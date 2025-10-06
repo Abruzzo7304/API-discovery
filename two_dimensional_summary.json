@@ -1,0 +1,38 @@
+{
+  "total_jobs": 187,
+  "jobs_needing_reclassification": 141,
+  "percentage_needing_change": 75.4,
+  "work_type_breakdown": {
+    "Make Safe": 90,
+    "Electrical": 67,
+    "Admin": 11,
+    "Solar/Battery": 8,
+    "Data/Phone": 5,
+    "Security/CCTV": 2,
+    "Air Conditioning": 2,
+    "Level Two": 2
+  },
+  "urgency_breakdown": {
+    "Urgent": 81,
+    "Standard": 59,
+    "Emergency": 37,
+    "Planned": 10
+  },
+  "top_combinations": {
+    "Make Safe - Urgent": 66,
+    "Electrical - Standard": 45,
+    "Make Safe - Emergency": 21,
+    "Electrical - Emergency": 12,
+    "Electrical - Urgent": 10,
+    "Admin - Planned": 6,
+    "Solar/Battery - Standard": 4,
+    "Data/Phone - Urgent": 3,
+    "Solar/Battery - Planned": 3,
+    "Admin - Emergency": 3,
+    "Make Safe - Standard": 3,
+    "Security/CCTV - Standard": 2,
+    "Air Conditioning - Standard": 2,
+    "Data/Phone - Standard": 2,
+    "Admin - Urgent": 2
+  }
+}

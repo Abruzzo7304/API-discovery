@@ -1,0 +1,70 @@
+{
+  "// REQUIRED FIELDS": "These fields must be filled out to create a job",
+  "purchase_order_number": "FILL_ME_IN - Your ETS PS or QR number for tracking",
+  "status": "FILL_ME_IN - Work Order or Quote",
+
+  "// CLIENT INFORMATION": "ETS client requesting the work",
+  "client_name": "FILL_ME_IN - Client company name (e.g., 'Woolworths', 'ABC Property Management')",
+
+  "// SITE INFORMATION": "Physical location where work will be performed",
+  "job_address": "FILL_ME_IN - Site address where work will be performed (include street, suburb, state, postcode)",
+
+  "// SITE CONTACT": "Person to contact at the physical site",
+  "site_contact_name": "FILL_ME_IN - Name of person at site for access/coordination",
+  "site_contact_phone": "FILL_ME_IN - Mobile/phone number for site contact",
+  "site_contact_email": "OPTIONAL - Email for site contact",
+
+  "// JOB DETAILS": "Work to be performed",
+  "job_description": "FILL_ME_IN - Include: Site/location name, detailed work required, and for CRITICAL jobs add: *** CRITICAL - 24x7 EMERGENCY ***",
+  "category_uuid": "FILL_ME_IN - Job category UUID (see provided list)",
+  "approval_limit": "FILL_ME_IN - Maximum approved amount (e.g., '$500 + GST')",
+  "special_instructions": "OPTIONAL - Any site-specific instructions or requirements",
+
+  "// PRIORITY ASSIGNMENT": "For critical emergencies",
+  "queue_uuid": "For CRITICAL jobs use: 3a8029ef-b239-4c2e-a18f-215f7964552b (TEE New Job queue)",
+
+  "// DO NOT CHANGE": "Pre-configured system fields - leave as-is",
+  "company_uuid": "971d644f-d6a8-479c-a901-1f9b0425d7bb",
+  "badges": "[\"7e6e49bc-2c47-4df5-a83f-234d5003d4eb\"]",
+  "active": 1,
+
+"// INSTRUCTIONS": {
+  "1": "Fill out all fields marked 'FILL_ME_IN' above",
+  "2": "Valid status options: 'Work Order' or 'Quote'",
+  "3": "DO NOT change any fields in the 'DO NOT CHANGE' section",
+  "4": "Job is created under ETS company (Emergency Trade Services)",
+  "5": "Client name identifies who requested the work",
+  "6": "Site is the physical address where work will be performed",
+  "7": "CRITICAL JOBS: Set priority to 'Critical' for life-threatening/24x7 emergencies - automatically assigns to TEE New Job queue",
+  "8": "Site contact will be added for on-site coordination",
+  "9": "After job creation, send Network Request to Sustaine through ServiceM8 interface",
+  "10": "Sustaine accepts job and invoices internally (not to ETS client)"
+},
+"// CRITICAL WORK CRITERIA": {
+  "Definition": "Life-threatening situations requiring immediate 24x7 response",
+  "Examples": "Power failure at hospital, exposed live wires, emergency lighting failure, critical infrastructure failure",
+  "Response": "Immediate dispatch via TEE New Job queue",
+  "Priority": "Automatically set to High",
+  "Queue": "TEE New Job (3a8029ef-b239-4c2e-a18f-215f7964552b)"
+},
+"// Available Queues: Queue_UUID": {
+  "1": "TEE New Job (CRITICAL) | 3a8029ef-b239-4c2e-a18f-215f7964552b",
+  "2": "Workshop | 53c79b08-42d8-4bf6-8271-1f47c1e9cbeb",
+  "3": "Pending Quotes | 7101a54e-3e2f-443a-aa1e-1f47c3ac2b4b",
+  "4": "Parts on Order | bd8e783d-b58a-465f-b637-1f47c1e9350b",
+  "5": "Pending Solar Quotes | 4723c11d-9702-4beb-b46a-1f8a60a0d83b"
+},
+"// Job Type categories: Category_UUID": {
+  "1": "Make Safe | 4e7b2af8-44a8-4570-b4cc-20deaa28a65b",
+  "2": "Electrical | 9b87f18b-5e5c-486f-99e5-1f4c5a3460fb",
+  "3": "Level Two | cfc84630-8c27-48cc-b6aa-1f47cfefaffb",
+  "4": "AC install | b9dd45cc-9623-4649-a1a7-1f47c8e429bb",
+  "6": "Re-wire | 508bb9d5-3f21-4686-b0a7-1f4c56c41a8b",
+  "7": "Warranty | f6bf455d-bd9a-4f55-a09d-1f4c59d1bc1b",
+  "8": "Generator | d183fff9-fb2f-4859-8e6e-21ecaff7f96b",
+  "9": "Data, Phone | 067bdf55-7332-4103-9f72-1f4c5e18c70b",
+  "10": "Solar, Battery, Grid | 3c2b1f0e-2dcb-4f7c-8f3e-1f47ce8e5fbb",
+  "11": "Energy Efficiency | 39fcdb19-16a3-4c69-a1fe-1fbbf724d83b",
+  "12": "Security, CCTV, Access control | 75a20c1b-bc57-4251-92cf-21eca071128b"
+}
+}

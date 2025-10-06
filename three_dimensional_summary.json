@@ -1,0 +1,49 @@
+{
+  "total_jobs": 187,
+  "jobs_needing_reclassification": 139,
+  "percentage_needing_change": 74.3,
+  "work_type_breakdown": {
+    "Make Safe": 90,
+    "Electrical": 67,
+    "Admin": 11,
+    "Solar/Battery": 8,
+    "Data/Phone": 5,
+    "Security/CCTV": 2,
+    "Air Conditioning": 2,
+    "Level Two": 2
+  },
+  "urgency_breakdown": {
+    "Emergency": 37,
+    "Urgent": 81,
+    "Standard": 59,
+    "Planned": 10
+  },
+  "property_type_breakdown": {
+    "Residential": 105,
+    "Commercial": 55,
+    "Industrial": 21,
+    "Agricultural": 6
+  },
+  "top_combinations": {
+    "Make Safe - Urgent - Residential": 44,
+    "Electrical - Standard - Residential": 29,
+    "Electrical - Standard - Commercial": 15,
+    "Make Safe - Emergency - Residential": 12,
+    "Make Safe - Urgent - Commercial": 12,
+    "Make Safe - Urgent - Industrial": 6,
+    "Electrical - Urgent - Residential": 5,
+    "Make Safe - Emergency - Commercial": 5,
+    "Electrical - Emergency - Commercial": 5,
+    "Electrical - Emergency - Residential": 4,
+    "Make Safe - Urgent - Agricultural": 4,
+    "Admin - Planned - Residential": 3,
+    "Electrical - Urgent - Commercial": 3,
+    "Make Safe - Emergency - Industrial": 3,
+    "Solar/Battery - Planned - Industrial": 3,
+    "Air Conditioning - Standard - Commercial": 2,
+    "Admin - Planned - Commercial": 2,
+    "Data/Phone - Urgent - Commercial": 2,
+    "Electrical - Emergency - Industrial": 2,
+    "Electrical - Urgent - Industrial": 2
+  }
+}

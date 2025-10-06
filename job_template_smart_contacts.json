@@ -1,0 +1,128 @@
+{
+  "// IMPORTANT NOTES": "This template uses Smart Contacts structure. Create SITE first, then JOB, then CONTACTS",
+  
+  "// STEP 1: SITE CREATION": "==================================",
+  "site": {
+    "// INSTRUCTION": "If site doesn't exist, create it first. If site exists, use its UUID in job creation",
+    "name": "FILL_ME_IN: Site name (e.g., 'Coles Supermarket - Fortitude Valley')",
+    "parent_company_uuid": "971d644f-d6a8-479c-a901-1f9b0425d7bb",
+    "billing_address": "FILL_ME_IN: Corporate billing address (head office)",
+    "address": "FILL_ME_IN: Physical site address (where work is done)",
+    "email": "FILL_ME_IN: Site email",
+    "phone": "FILL_ME_IN: Site phone",
+    "active": 1,
+    "// DO NOT CHANGE": "parent_company_uuid links to ETS"
+  },
+
+  "// STEP 2: JOB CREATION": "==================================",
+  "job": {
+    "// FIELDS TO COMPLETE": "User must fill these fields",
+    
+    "company_uuid": "FILL_ME_IN: Use site UUID from Step 1 (NOT ETS UUID)",
+    "purchase_order_number": "FILL_ME_IN: ETS PO number (e.g., 'ETS-SITE-XXX-001')",
+    "status": "FILL_ME_IN: Either 'Work Order' or 'Quote'",
+    "job_address": "FILL_ME_IN: Physical address where work is performed (site address)",
+    
+    "job_description": "FILL_ME_IN: Format as follows:\n\nURGENCY: [EMERGENCY/HIGH/STANDARD/LOW]\nContact during business hours to schedule job\nService window: [e.g., Monday-Friday 7am-5pm]\nResponse time: [e.g., Within 48 hours]\n\n-----------------------------------\n\nJOB DETAILS:\n[Describe the work required in detail]\n\nFor any changes or variations to this work order, please contact:\nSustaine Electrical - 1300 SUSTAINE (1300 787 824)\n\nSite access: [Who has keys/access]\nSafety requirements: [PPE requirements]",
+
+    "work_done_description": "FILL_ME_IN: Billing instructions (template below)\n\nBILLING INSTRUCTIONS:\n==================\nBill To: [Corporate name and address]\nPO Reference: [Same as purchase_order_number]\n\nAPPROVAL LIMIT: $[amount] + GST\n\nAny work exceeding this amount requires prior approval from ETS.\nFor variations or additional work beyond approved limit:\n- Contact ETS Office: 1800 ETS HELP\n- Email: approvals@emergencytradeservices.com.au\n\nPayment terms: 30 days from invoice\nInvoicing: Direct to ETS head office",
+
+    "// OPTIONAL FIELDS": "Complete if applicable",
+    "scheduled_start": "OPTIONAL: YYYY-MM-DD HH:MM:SS format",
+    "scheduled_duration": "OPTIONAL: Duration in minutes",
+    
+    "// CATEGORY OPTIONS": "Choose appropriate category UUID",
+    "category_uuid": "CHOOSE_ONE:",
+    "// Electrical": "9b87f18b-5e5c-486f-99e5-1f4c5a3460fb",
+    "// Plumbing": "7fe91a29-af35-455e-8f35-f4cb689b345f",
+    "// HVAC": "8ab8e2d8-f533-4b20-838a-2f48ae55de17",
+    "// Building/Carpentry": "e37dd408-c880-4de8-b465-9a267a7d8c50",
+    "// Cleaning": "e963c0de-66e0-4cd0-8e71-cfab5bb1e679",
+    "// Locksmith": "b7ddfeaf-e5c4-4a84-a7da-9302cdb7a136",
+    "// Pest Control": "c42834a9-f7e4-49f8-bd58-dfeea970e7a6",
+    "// Fire Safety": "baf9ad74-4e72-4b56-a1c0-8dcd956e8a8e",
+    "// Glass & Glazing": "73dd1d38-b5e0-49b8-bb31-1aa0e1f387ce",
+    
+    "// DO NOT CHANGE THESE FIELDS": "System fields - leave as configured",
+    "badges": "[\"7e6e49bc-2c47-4df5-a83f-234d5003d4eb\"]",
+    "source": "Created by ETS via API Integration",
+    "active": 1
+  },
+
+  "// STEP 3: JOB CONTACTS": "==================================",
+  "contacts": {
+    "// INSTRUCTION": "Add these contacts AFTER job creation using job UUID",
+    
+    "site_contact": {
+      "// PRIORITY CONTACT": "Always add a site contact",
+      "job_uuid": "USE_JOB_UUID_FROM_STEP_2",
+      "first": "FILL_ME_IN: Site contact first name",
+      "last": "FILL_ME_IN: Site contact last name",
+      "email": "FILL_ME_IN: Site contact email",
+      "mobile": "FILL_ME_IN: Site contact mobile",
+      "phone": "OPTIONAL: Site phone",
+      "type": "JOB",
+      "active": 1,
+      "// NOTE": "Type must be 'JOB' for site contacts (ServiceM8 limitation)"
+    },
+    
+    "property_manager": {
+      "// OPTIONAL CONTACT": "Add if property has a manager",
+      "job_uuid": "USE_JOB_UUID_FROM_STEP_2",
+      "first": "OPTIONAL: Property manager first name",
+      "last": "OPTIONAL: Property manager last name",
+      "email": "OPTIONAL: Property manager email",
+      "mobile": "OPTIONAL: Property manager mobile",
+      "type": "Property Manager",
+      "active": 1
+    },
+    
+    "billing_contact": {
+      "// OPTIONAL CONTACT": "Add if different billing contact needed",
+      "job_uuid": "USE_JOB_UUID_FROM_STEP_2",
+      "first": "OPTIONAL: Billing contact first name (or 'Accounts')",
+      "last": "OPTIONAL: Billing contact last name (or 'Payable')",
+      "email": "OPTIONAL: Accounts email",
+      "phone": "OPTIONAL: Accounts phone",
+      "type": "BILLING",
+      "active": 1
+    }
+  },
+
+  "// STEP 4: ATTACHMENTS": "==================================",
+  "attachment": {
+    "// OPTIONAL": "Add attachments after job creation",
+    "job_uuid": "USE_JOB_UUID_FROM_STEP_2",
+    "filename": "OPTIONAL: File name (e.g., 'work_order.pdf')",
+    "file_content": "OPTIONAL: Base64 encoded file content or file path"
+  },
+
+  "// API ENDPOINTS": "==================================",
+  "endpoints": {
+    "base_url": "https://api.servicem8.com/api_1.0",
+    "company": "/company.json",
+    "job": "/job.json",
+    "jobcontact": "/jobcontact.json",
+    "attachment": "/Attachment/{uuid}.file",
+    "note": "/note.json"
+  },
+
+  "// IMPORTANT LIMITATIONS": "==================================",
+  "limitations": [
+    "billing_address field ALWAYS equals job_address at job creation",
+    "Billing separation happens at invoice generation, not job creation",
+    "Site Contact must use type 'JOB' (no SITE_CONTACT type exists)",
+    "Only 3 JobContact types work: JOB, Property Manager, BILLING",
+    "Billing instructions must go in work_done_description field",
+    "Network Requests can only be sent through ServiceM8 UI, not API"
+  ],
+
+  "// WORKFLOW SUMMARY": "==================================",
+  "workflow": [
+    "1. Check if site exists, create if needed",
+    "2. Create job with site UUID as company_uuid",
+    "3. Add job contacts (site contact is priority)",
+    "4. Add attachments if needed",
+    "5. ServiceM8 handles billing at invoice time via Smart Contacts hierarchy"
+  ]
+}

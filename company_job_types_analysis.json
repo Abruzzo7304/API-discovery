@@ -1,0 +1,281 @@
+{
+  "company_uuid": "971d644f-d6a8-479c-a901-1f9b0425d7bb",
+  "total_jobs": 187,
+  "job_categories": [
+    {
+      "category_uuid": "",
+      "category_name": "No Category Assigned",
+      "job_count": 70,
+      "percentage": "37%",
+      "description": "Emergency repairs, commercial work, uncategorized jobs",
+      "sample_work": "Tissue sample machines, bathroom finishing, QML facilities",
+      "examples": [
+        {
+          "job_id": "283",
+          "description": "2 tissue sample machines - Provide new power supply and data cabling for back to base monitoring",
+          "amount": "$1,017.34",
+          "status": "Completed"
+        },
+        {
+          "job_id": "368",
+          "description": "Bathroom: Finish Lighting, Reattach power points, Power to Dishwasher",
+          "amount": "$932.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "399",
+          "description": "QML Site - De-Energise existing benches, Remove existing benches, Install electrical for new benches",
+          "amount": "$4,377.00",
+          "status": "Unsuccessful"
+        },
+        {
+          "job_id": "440",
+          "description": "Electrical Specialist Report - smoke alarm & RCD compliance testing with written report/certificate",
+          "amount": "$511.50",
+          "status": "Completed"
+        },
+        {
+          "job_id": "446",
+          "description": "QML site - Installation of Desk for Dr. Emily Jones - Dismantle existing desks and transport",
+          "amount": "$1,080.00",
+          "status": "Unsuccessful"
+        }
+      ]
+    },
+    {
+      "category_uuid": "e459d11f-e77e-4b57-9daf-1f4c5f8aa52b",
+      "category_name": "Urgent",
+      "job_count": 43,
+      "percentage": "23%",
+      "description": "Emergency electrical repairs, urgent call-outs",
+      "sample_work": "Hot water system failures, power outages, urgent electrical issues",
+      "examples": [
+        {
+          "job_id": "110",
+          "description": "Electric hot water system stopped working - urgent as husband has Parkinson's disease",
+          "amount": "$495.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "213",
+          "description": "MS Electrical Power points not working - Make Safe emergency call",
+          "amount": "$438.90",
+          "status": "Completed"
+        },
+        {
+          "job_id": "267",
+          "description": "Solar Electrical Unit has stopped working - urgent repair required",
+          "amount": "$275.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "337",
+          "description": "MAKE SAFE - Burst pipe caused bedroom flooding, electrical make safe required",
+          "amount": "$330.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "558",
+          "description": "Electrical Stove top not working - Hot plates failed",
+          "amount": "$220.00",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "category_uuid": "9b87f18b-5e5c-486f-99e5-1f4c5a3460fb",
+      "category_name": "Electrical",
+      "job_count": 35,
+      "percentage": "19%",
+      "description": "General electrical work, installations, fit-outs",
+      "sample_work": "Shed lighting, power points, residential electrical work",
+      "examples": [
+        {
+          "job_id": "221",
+          "description": "Darren's residence - Fit off new shed Light and power, Rough in high bay lights in gym area",
+          "amount": "$6,933.37",
+          "status": "Completed"
+        },
+        {
+          "job_id": "236",
+          "description": "Stage 2 - Shed lighting: tractor light, water tank light, twin LED spots, stairs bunker light",
+          "amount": "$4,221.94",
+          "status": "Completed"
+        },
+        {
+          "job_id": "280",
+          "description": "Stage 3 - Fit off Tac room and stables, twin spot lights, down-lights, GPOs, underground trench",
+          "amount": "$2,481.05",
+          "status": "Completed"
+        },
+        {
+          "job_id": "285",
+          "description": "AC service required - rat chewed cable, determine if rectifiable or AC tech needed",
+          "amount": "$263.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "286",
+          "description": "Electric oven not working - Find fault and repair within 2 hours/$50 materials",
+          "amount": "$248.00",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "category_uuid": "4e7b2af8-44a8-4570-b4cc-20deaa28a65b",
+      "category_name": "Make Safe",
+      "job_count": 30,
+      "percentage": "16%",
+      "description": "Insurance make safe work, storm damage, water damage electrical",
+      "sample_work": "Water damage electrical repairs, storm damage response",
+      "examples": [
+        {
+          "job_id": "634",
+          "description": "MAKE SAFE - Water entry through roof, split level/sunroom metal ceiling down",
+          "amount": "$330.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "646",
+          "description": "ELECTRICAL MAKE SAFE - electrical box unsecure and unsafe, water damage",
+          "amount": "$330.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "649",
+          "description": "ELECTRICAL MS - secure electricals affected by water entry",
+          "amount": "$330.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "654",
+          "description": "ELECTRICAL MAKE SAFE - Power line hanging to house, isolate electrics",
+          "amount": "$330.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "700",
+          "description": "Lightning strike in driveway hit garden fork, caused wire damage",
+          "amount": "$330.00",
+          "status": "Unsuccessful"
+        }
+      ]
+    },
+    {
+      "category_uuid": "080733e2-a30a-4553-9e40-1f47cec7f6cb",
+      "category_name": "Solar, Battery, Standalone",
+      "job_count": 4,
+      "percentage": "2%",
+      "description": "Solar panel installations, battery systems, renewable energy",
+      "sample_work": "Solar system installations, battery add-ons, solar assessments",
+      "examples": [
+        {
+          "job_id": "1207",
+          "description": "Supply & Install 10.56kW Solar system, Canadian Solar, NOARK inverter, Vaulta 14.36KWH battery",
+          "amount": "$29,257.43",
+          "status": "Completed"
+        },
+        {
+          "job_id": "1207A",
+          "description": "Option 1: 10.56kW Solar system, Canadian Solar TOPBiHiKu6, NOARK Electric inverter",
+          "amount": "$3,039.65",
+          "status": "Completed"
+        },
+        {
+          "job_id": "1404",
+          "description": "Solar Report - attend to Solar on roof for assessment, incident details required",
+          "amount": "$220.00",
+          "status": "Completed"
+        },
+        {
+          "job_id": "1408",
+          "description": "Disconnected affected damaged panel, Make Safe, Solar Report Incident",
+          "amount": "$330.00",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "category_uuid": "5f08a40b-f578-465d-b3ee-1f4c5e4d900b",
+      "category_name": "Admin office time & Quotes",
+      "job_count": 2,
+      "percentage": "1%",
+      "description": "Administrative tasks, meetings, paperwork",
+      "sample_work": "NDIS certification, business meetings",
+      "examples": [
+        {
+          "job_id": "1160",
+          "description": "NDIS certification - worker screening check completion",
+          "amount": "$0.00",
+          "status": "Work Order"
+        },
+        {
+          "job_id": "1524",
+          "description": "Meeting with Donatella from ETS - discuss Sustaine Electrical taking on Northern NSW/QLD works",
+          "amount": "$0.00",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "category_uuid": "cfc84630-8c27-48cc-b6aa-1f47cfefaffb",
+      "category_name": "Level Two",
+      "job_count": 1,
+      "percentage": "0.5%",
+      "description": "Level 2 electrical work, service reconnections",
+      "sample_work": "Overhead service reconnection due to storm damage",
+      "examples": [
+        {
+          "job_id": "1325",
+          "description": "Reconnect electricity supply - severe storm damage removed connection, replacement of overhead service",
+          "amount": "$5,232.00",
+          "status": "Unsuccessful"
+        }
+      ]
+    },
+    {
+      "category_uuid": "75a20c1b-bc57-4251-92cf-21eca071128b",
+      "category_name": "Security, CCTV, Access control",
+      "job_count": 1,
+      "percentage": "0.5%",
+      "description": "Security systems, telecommunications",
+      "sample_work": "Starlink installation",
+      "examples": [
+        {
+          "job_id": "1330",
+          "description": "Starlink installation",
+          "amount": "$1,901.66",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "category_uuid": "067bdf55-7332-4103-9f72-1f4c5e18c70b",
+      "category_name": "Data, Phone",
+      "job_count": 1,
+      "percentage": "0.5%",
+      "description": "Data and telecommunications work",
+      "sample_work": "Test alarm systems",
+      "examples": [
+        {
+          "job_id": "489",
+          "description": "MS TEST ALARM - alarm test failed at Brisbane Histology, processors not registering alarm",
+          "amount": "$275.00",
+          "status": "Completed"
+        }
+      ]
+    }
+  ],
+  "analysis": {
+    "primary_business_type": "Emergency Trade Services",
+    "specializations": [
+      "Emergency electrical repairs (60% of jobs)",
+      "Insurance make safe work",
+      "General electrical installations",
+      "Solar and battery systems",
+      "Storm damage response"
+    ],
+    "business_model": "Emergency response and insurance contractor"
+  }
+}

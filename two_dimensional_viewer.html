@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Dimensional Job Classification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .stats-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stats-section h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            font-weight: 500;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        .combinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .combo-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+        .combo-count {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .combo-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        .filters {
+            padding: 20px 30px;
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-group label {
+            font-weight: 500;
+            color: #495057;
+        }
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th {
+            background: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f3f4;
+            vertical-align: top;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .needs-change {
+            background-color: #fff3cd !important;
+        }
+        .needs-change:hover {
+            background-color: #ffeaa7 !important;
+        }
+        .no-change {
+            background-color: #d4edda !important;
+        }
+        .no-change:hover {
+            background-color: #b8dabc !important;
+        }
+        .job-number {
+            font-weight: bold;
+            color: #667eea;
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+            margin: 2px;
+        }
+        /* Work Type Colors */
+        .work-electrical { background: #e6f3ff; color: #0d6efd; }
+        .work-make-safe { background: #ffe6e6; color: #dc3545; }
+        .work-solar { background: #e6ffe6; color: #198754; }
+        .work-admin { background: #fff3e6; color: #fd7e14; }
+        .work-level-two { background: #f3e6ff; color: #6f42c1; }
+        .work-security { background: #e6f7ff; color: #20c997; }
+        .work-data { background: #f0f0f0; color: #6c757d; }
+        .work-air-conditioning { background: #e0f7fa; color: #00bcd4; }
+
+        /* Urgency Colors */
+        .urgency-emergency { background: #ffebee; color: #f44336; border: 2px solid #f44336; }
+        .urgency-urgent { background: #fff3e0; color: #ff9800; border: 2px solid #ff9800; }
+        .urgency-standard { background: #e8f5e8; color: #4caf50; border: 2px solid #4caf50; }
+        .urgency-planned { background: #e3f2fd; color: #2196f3; border: 2px solid #2196f3; }
+
+        .description {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .amount {
+            font-weight: 500;
+            text-align: right;
+        }
+        .status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-completed { background: #d4edda; color: #155724; }
+        .status-unsuccessful { background: #f8d7da; color: #721c24; }
+        .status-work-order { background: #d1ecf1; color: #0c5460; }
+        .change-indicator {
+            font-weight: bold;
+            text-align: center;
+        }
+        .change-yes { color: #dc3545; }
+        .change-no { color: #198754; }
+        .logic {
+            font-family: monospace;
+            font-size: 12px;
+            color: #6c757d;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Two-Dimensional Job Classification</h1>
+            <p>Work Type + Urgency Level Analysis</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stats-section">
+                <h3>📊 Overview</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Total Jobs</span>
+                    <span class="stat-value" id="totalJobs">187</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Need Reclassification</span>
+                    <span class="stat-value" id="needsChange">141 (75.4%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Correctly Classified</span>
+                    <span class="stat-value" id="correctlyClassified">46 (24.6%)</span>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3>🔨 Work Types</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Make Safe</span>
+                    <span class="stat-value">90 (48%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Electrical</span>
+                    <span class="stat-value">67 (36%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Admin</span>
+                    <span class="stat-value">11 (6%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Solar/Battery</span>
+                    <span class="stat-value">8 (4%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Other</span>
+                    <span class="stat-value">11 (6%)</span>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3>⚡ Urgency Levels</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Urgent</span>
+                    <span class="stat-value">81 (43%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Standard</span>
+                    <span class="stat-value">59 (32%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Emergency</span>
+                    <span class="stat-value">37 (20%)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Planned</span>
+                    <span class="stat-value">10 (5%)</span>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3>🎯 Top Combinations</h3>
+                <div class="combinations-grid">
+                    <div class="combo-item">
+                        <div class="combo-count">66</div>
+                        <div class="combo-label">Make Safe - Urgent</div>
+                    </div>
+                    <div class="combo-item">
+                        <div class="combo-count">45</div>
+                        <div class="combo-label">Electrical - Standard</div>
+                    </div>
+                    <div class="combo-item">
+                        <div class="combo-count">21</div>
+                        <div class="combo-label">Make Safe - Emergency</div>
+                    </div>
+                    <div class="combo-item">
+                        <div class="combo-count">12</div>
+                        <div class="combo-label">Electrical - Emergency</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="filterChange">Show:</label>
+                <select id="filterChange">
+                    <option value="all">All Jobs</option>
+                    <option value="needs-change">Needs Reclassification</option>
+                    <option value="no-change">Correctly Classified</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterWorkType">Work Type:</label>
+                <select id="filterWorkType">
+                    <option value="all">All Work Types</option>
+                    <option value="Make Safe">Make Safe</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Solar/Battery">Solar/Battery</option>
+                    <option value="Data/Phone">Data/Phone</option>
+                    <option value="Security/CCTV">Security/CCTV</option>
+                    <option value="Level Two">Level Two</option>
+                    <option value="Air Conditioning">Air Conditioning</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterUrgency">Urgency:</label>
+                <select id="filterUrgency">
+                    <option value="all">All Urgency Levels</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Planned">Planned</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterStatus">Status:</label>
+                <select id="filterStatus">
+                    <option value="all">All Statuses</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Unsuccessful">Unsuccessful</option>
+                    <option value="Work Order">Work Order</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchJob">Search:</label>
+                <input type="text" id="searchJob" placeholder="Job number or description...">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="jobTable">
+                <thead>
+                    <tr>
+                        <th>Job #</th>
+                        <th>Current Category</th>
+                        <th>Work Type</th>
+                        <th>Urgency Level</th>
+                        <th>Recommended</th>
+                        <th>Change?</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Logic</th>
+                    </tr>
+                </thead>
+                <tbody id="jobTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let jobData = [];
+        let filteredData = [];
+
+        function getWorkTypeClass(workType) {
+            const classMap = {
+                'Electrical': 'work-electrical',
+                'Make Safe': 'work-make-safe',
+                'Solar/Battery': 'work-solar',
+                'Admin': 'work-admin',
+                'Level Two': 'work-level-two',
+                'Security/CCTV': 'work-security',
+                'Data/Phone': 'work-data',
+                'Air Conditioning': 'work-air-conditioning'
+            };
+            return classMap[workType] || 'work-electrical';
+        }
+
+        function getUrgencyClass(urgency) {
+            const classMap = {
+                'Emergency': 'urgency-emergency',
+                'Urgent': 'urgency-urgent',
+                'Standard': 'urgency-standard',
+                'Planned': 'urgency-planned'
+            };
+            return classMap[urgency] || 'urgency-standard';
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'Completed': 'status-completed',
+                'Unsuccessful': 'status-unsuccessful',
+                'Work Order': 'status-work-order'
+            };
+            return statusMap[status] || '';
+        }
+
+        function formatAmount(amount) {
+            const num = parseFloat(amount);
+            return num > 0 ? `$${num.toLocaleString('en-US', {minimumFractionDigits: 2})}` : '$0.00';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('jobTableBody');
+            tbody.innerHTML = '';
+
+            filteredData.forEach(job => {
+                const row = document.createElement('tr');
+                row.className = job.needs_change ? 'needs-change' : 'no-change';
+
+                row.innerHTML = `
+                    <td><span class="job-number">${job.job_number}</span></td>
+                    <td><span class="badge">${job.current_category}</span></td>
+                    <td><span class="badge ${getWorkTypeClass(job.work_type)}">${job.work_type}</span></td>
+                    <td><span class="badge ${getUrgencyClass(job.urgency_level)}">${job.urgency_level}</span></td>
+                    <td><span class="badge">${job.recommended_category}</span></td>
+                    <td class="change-indicator ${job.needs_change ? 'change-yes' : 'change-no'}">${job.needs_change ? '⚠️ YES' : '✅ NO'}</td>
+                    <td class="description" title="${job.job_description_snippet}">${job.job_description_snippet}</td>
+                    <td class="amount">${formatAmount(job.amount)}</td>
+                    <td><span class="status ${getStatusClass(job.status)}">${job.status}</span></td>
+                    <td><span class="logic">${job.classification_logic}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function applyFilters() {
+            const changeFilter = document.getElementById('filterChange').value;
+            const workTypeFilter = document.getElementById('filterWorkType').value;
+            const urgencyFilter = document.getElementById('filterUrgency').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const searchTerm = document.getElementById('searchJob').value.toLowerCase();
+
+            filteredData = jobData.filter(job => {
+                const matchesChange = changeFilter === 'all' ||
+                    (changeFilter === 'needs-change' && job.needs_change) ||
+                    (changeFilter === 'no-change' && !job.needs_change);
+
+                const matchesWorkType = workTypeFilter === 'all' || job.work_type === workTypeFilter;
+                const matchesUrgency = urgencyFilter === 'all' || job.urgency_level === urgencyFilter;
+                const matchesStatus = statusFilter === 'all' || job.status === statusFilter;
+                const matchesSearch = searchTerm === '' ||
+                    job.job_number.toLowerCase().includes(searchTerm) ||
+                    job.job_description_snippet.toLowerCase().includes(searchTerm);
+
+                return matchesChange && matchesWorkType && matchesUrgency && matchesStatus && matchesSearch;
+            });
+
+            renderTable();
+        }
+
+        // Load the complete dataset from JSON file
+        async function loadJobData() {
+            try {
+                // Try to load from the JSON file
+                const response = await fetch('two_dimensional_job_classification.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log(`Loaded ${data.length} jobs from JSON file`);
+                return data;
+            } catch (error) {
+                console.warn('Could not load JSON file, using embedded data:', error);
+                // Fallback to CSV data parsing
+                return parseCSVData();
+            }
+        }
+
+        // Fallback: Parse CSV data if JSON loading fails
+        function parseCSVData() {
+            const csvData = `Job Number,Current Category,Work Type,Urgency Level,Recommended Category,Needs Change,Job Description,Amount,Status,Logic
+110,Urgent,Electrical,Emergency,Urgent,No,The electric hot water system has stopped working. They need hot water asap as her husband has Parkinson's disease.,495.0000,Completed,Electrical + Emergency → Urgent
+213,Urgent,Make Safe,Urgent,Make Safe,Yes,MS Electrical Power points not working. Pre-approval limit: $300 + GST for all works outlined above. Re: MAKE SAFE_JOB-19538,438.9000,Completed,Make Safe + Urgent → Make Safe
+221,Electrical,Electrical,Standard,Electrical,No,Re: 76 Howards Rd Darren's residence. Fit off new shed Light and power. Rough in high bay lights in gym area.,6933.3700,Completed,Electrical + Standard → Electrical
+236,Electrical,Electrical,Standard,Electrical,No,Stage 2 of Works.Darren's residence. Fit off new shed Light and power. Rough in high bay lights in gym area.,4221.9400,Completed,Electrical + Standard → Electrical
+267,Urgent,Make Safe,Urgent,Make Safe,Yes,The mandatory Requirements for this Order are: Photos Required = Yes Trade Report Required = Yes Solar Electrical Unit has stopped working,275.0000,Completed,Make Safe + Urgent → Make Safe
+280,Electrical,Electrical,Standard,Electrical,No,Stage 3 -Fit off Tac room and stables -2 Twin spot lights -2 down-lights -3 double GPO's and light switch - Dig underground trench,2481.0500,Completed,Electrical + Standard → Electrical
+283,No Category Assigned,Security/CCTV,Standard,Security CCTV Access control,Yes,2 tissue sample machines- Client to relocate machines -Provide new power supply and date cabling for back to base monitoring,1017.3400,Completed,Security/CCTV + Standard → Security CCTV Access control
+285,Electrical,Electrical,Standard,Electrical,No,-AC tech is required to service air-conditioning unit (a rat has chewed a cable) -Electrician to determine if rectifiable,263.0000,Completed,Electrical + Standard → Electrical
+286,Electrical,Electrical,Urgent,Urgent,Yes,Photos Required = Yes Trade Report Required = Yes AREAS / Oven -electric oven is not working -Find Fault and if repairable,248.0000,Completed,Electrical + Urgent → Urgent
+330,Electrical,Electrical,Standard,Electrical,No,Dade Cell Washer in Blood Bank needs the saline fill calibration adjusted. This was preformed by QML electrical.,0.0000,Completed,Electrical + Standard → Electrical
+337,Urgent,Make Safe,Urgent,Make Safe,Yes,MAKE SAFE ETS0000665 They have a burst pipe caused the main bedroom to be saturated with water and requires electrical make safe,330.0000,Completed,Make Safe + Urgent → Make Safe
+345,Electrical,Electrical,Standard,Electrical,No,Site Contact: LORNA MAREE COATES HOME ASSIST ELECTRICAL - TO REPLACE EXHAUST FAN Cost is $250 ex GST only,275.0000,Completed,Electrical + Standard → Electrical
+368,No Category Assigned,Electrical,Standard,Electrical,Yes,Bathroom: - Finish Lighting - Reattach power points - Power to Dishwasher,932.0000,Completed,Electrical + Standard → Electrical
+399,No Category Assigned,Electrical,Standard,Electrical,Yes,QML Site Contact: Judith Rasmussen - De-Energise existing benches - Remove existing benches - Install electrical for new benches,4377.0000,Unsuccessful,Electrical + Standard → Electrical
+440,No Category Assigned,Electrical,Standard,Electrical,Yes,Electrical Specialist Report Please arrange a smoke alarm & RCD compliance testing including a written report/certificate,511.5000,Completed,Electrical + Standard → Electrical
+446,No Category Assigned,Electrical,Standard,Electrical,Yes,ETS0001728 Attend QML site 11 Riverview Pl Murarrie QLD 4172 Installation of Desk for Dr. Emily Jones - First Floor,1080.0000,Unsuccessful,Electrical + Standard → Electrical
+489,Data Phone,Data/Phone,Urgent,Data Phone,No,WORK DETAILS : MS TEST ALARM The alarm test failed. Brisbane Histology Processors are not registering an alarm in despatch,275.0000,Completed,Data/Phone + Urgent → Data Phone
+558,Urgent,Electrical,Urgent,Urgent,No,Site Contact: Nadia Afif JOB DETAILS Electrical Stove top not working. Hot plates not working,220.0000,Completed,Electrical + Urgent → Urgent
+634,Make Safe,Make Safe,Urgent,Make Safe,No,MARK STEPHEN MAKE SAFE electrical MS Special Instructions: NEW MAKE SAFE REQUEST - Water entry through roof,330.0000,Completed,Make Safe + Urgent → Make Safe
+646,Make Safe,Make Safe,Urgent,Make Safe,No,ETS0005803 Cathy Heaton ELECTRICAL MAKE SAFE - electrical Box - it's unsecure and unsafe - there's water,330.0000,Completed,Make Safe + Urgent → Make Safe
+649,Make Safe,Make Safe,Urgent,Make Safe,No,MELAINE ROWLISON ELECTRICAL MS required to secure electricals affected by water entry,330.0000,Completed,Make Safe + Urgent → Make Safe
+654,Make Safe,Make Safe,Urgent,Make Safe,No,Ms. DANIELLE TIMOTEO ELECTRICAL MAKE SAFE Job Description Make Safe / Isolate electrics to area specified,330.0000,Completed,Make Safe + Urgent → Make Safe
+700,Make Safe,Make Safe,Urgent,Make Safe,No,JOANNE WRIGHT MS ? HVAC Claim Lodgement Information I had a lightning strike last night in the driveway,330.0000,Unsuccessful,Make Safe + Urgent → Make Safe
+1160,Admin office time & Quotes,Admin,Planned,Admin office time & Quotes,No,NDIS certification Please utilise the below to complete the check: https://www.ndiscommission.gov.au/workers/worker-screening,0.0000,Work Order,Admin + Planned → Admin office time & Quotes
+1207,Solar Battery Standalone,Solar/Battery,Standard,Solar Battery Standalone,No,For full details please see attached Pylon quotes for: Supply & Install -10.56kW Solar system,29257.4300,Completed,Solar/Battery + Standard → Solar Battery Standalone
+1207A,Solar Battery Standalone,Solar/Battery,Standard,Solar Battery Standalone,No,Hi Darren For full details please see attached Pylon quotes for: Option 1: 10.56kW Solar system,3039.6500,Completed,Solar/Battery + Standard → Solar Battery Standalone
+1325,Level Two,Level Two,Standard,Level Two,No,- Works required to reconnect Electricity supply to 90 Wanganui Rd - Reconnection due to severe storm damage,5232.0000,Unsuccessful,Level Two + Standard → Level Two
+1330,Security CCTV Access control,Security/CCTV,Standard,Security CCTV Access control,No,Starlink,1901.6600,Completed,Security/CCTV + Standard → Security CCTV Access control
+1373,Electrical,Electrical,Standard,Electrical,No,Re-wire shed -Install new DB in shed -New underground cable run from house to shed -Install new lights & GPO's as required,6402.5000,Completed,Electrical + Standard → Electrical
+1404,Solar Battery Standalone,Solar/Battery,Standard,Solar Battery Standalone,No,LYNN VANDERDONK: 0432 588 562 Solar Report Please attend to the Solar on the roof for assessment,220.0000,Completed,Solar/Battery + Standard → Solar Battery Standalone
+1408,Solar Battery Standalone,Make Safe,Standard,Make Safe,Yes,Attend Site: 35 Crabbes Creek Rd - Disconnected affected damaged panel - Make Safe $330+GST,330.0000,Completed,Make Safe + Standard → Make Safe
+1524,Admin office time & Quotes,Admin,Planned,Admin office time & Quotes,No,Meeting with Donatella from ETS to discuss Sustaine Electrical taking on the Electrical works,0.0000,Completed,Admin + Planned → Admin office time & Quotes
+1587,Solar Battery Standalone,Make Safe,Standard,Make Safe,Yes,Redback 14.kW Battery add on to existing system. Battery installation and programming.,13328.8000,Unsuccessful,Make Safe + Standard → Make Safe`;
+
+            return parseCSV(csvData);
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(',');
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                const row = {
+                    job_number: values[0],
+                    current_category: values[1],
+                    work_type: values[2],
+                    urgency_level: values[3],
+                    recommended_category: values[4],
+                    needs_change: values[5] === 'Yes',
+                    job_description_snippet: values[6],
+                    amount: values[7],
+                    status: values[8],
+                    classification_logic: values[9]
+                };
+                data.push(row);
+            }
+            return data;
+        }
+
+        async function init() {
+            try {
+                jobData = await loadJobData();
+                console.log(`Loaded ${jobData.length} jobs`);
+            } catch (error) {
+                console.error('Failed to load job data:', error);
+                jobData = parseCSVData(); // Fallback
+            }
+
+            filteredData = [...jobData];
+            renderTable();
+
+            // Add event listeners
+            document.getElementById('filterChange').addEventListener('change', applyFilters);
+            document.getElementById('filterWorkType').addEventListener('change', applyFilters);
+            document.getElementById('filterUrgency').addEventListener('change', applyFilters);
+            document.getElementById('filterStatus').addEventListener('change', applyFilters);
+            document.getElementById('searchJob').addEventListener('input', applyFilters);
+        }
+
+        init();
+    </script>
+</body>
+</html>

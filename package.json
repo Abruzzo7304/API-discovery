@@ -1,0 +1,16 @@
+{
+  "name": "servicem8-api-discovery",
+  "version": "1.0.0",
+  "description": "ServiceM8 API integration and discovery tools",
+  "main": "config.js",
+  "scripts": {
+    "test": "node get_job_categories.js"
+  },
+  "keywords": [
+    "servicem8",
+    "api",
+    "integration"
+  ],
+  "author": "",
+  "license": "ISC"
+}

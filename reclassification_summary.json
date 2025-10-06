@@ -1,0 +1,27 @@
+{
+  "total_jobs": 187,
+  "jobs_needing_reclassification": 140,
+  "percentage_needing_change": 74.9,
+  "changes_by_category": {
+    "Urgent -> Make Safe": 37,
+    "Electrical -> Make Safe": 11,
+    "No Category Assigned -> Security, CCTV, Access control": 1,
+    "Electrical -> Admin office time & Quotes": 3,
+    "No Category Assigned -> Electrical": 28,
+    "Electrical -> Urgent": 7,
+    "No Category Assigned -> Admin office time & Quotes": 4,
+    "No Category Assigned -> Make Safe": 25,
+    "Data, Phone -> Make Safe": 1,
+    "Make Safe -> Electrical": 4,
+    "Urgent -> Data, Phone": 1,
+    "No Category Assigned -> Urgent": 9,
+    "Make Safe -> Urgent": 1,
+    "Level Two -> Make Safe": 1,
+    "Make Safe -> Data, Phone": 1,
+    "Electrical -> Data, Phone": 1,
+    "Solar, Battery, Standalone -> Make Safe": 1,
+    "No Category Assigned -> Solar, Battery, Standalone": 2,
+    "Electrical -> Solar, Battery, Standalone": 1,
+    "No Category Assigned -> Data, Phone": 1
+  }
+}
